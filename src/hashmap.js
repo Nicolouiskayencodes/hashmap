@@ -53,8 +53,28 @@ function HashMap() {
       buckets[index].replaceAt(key,value, depth)
     }
   }
+  function get(key) {
+    let index = -1;
+    let correctBucket = [];
+    for (let i=0; i<buckets.length; i++) {
+      if(buckets[i] !== undefined){
+        if (buckets[i].contain(key)){
+          index = buckets[i].find(key);
+          correctBucket = buckets[i].getHead();
+        }
+      }
+    }
+    if (index === -1){
+      return null;
+    }
 
-  return {getBuckets, hash, set}
+    for (let i=0; i<index; i++){
+      correctBucket = correctBucket.next
+    }
+    return correctBucket[key];
+  }
+
+  return {getBuckets, hash, set, get}
 }
 
 let hash = HashMap();
@@ -94,3 +114,5 @@ hash.set("hi", "boyo");
 hash.set("groan", "teehee");
 hash.set("groan", "nonono");
 console.log(hash.getBuckets());
+console.log(hash.get("groan"))
+console.log(hash.get("qwuwur"))
