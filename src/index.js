@@ -1,2 +1,2 @@
 import './style.css';
-console.log('test');
+import { HashMap } from './hashmap';

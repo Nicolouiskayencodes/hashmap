@@ -2,12 +2,12 @@
   "name": "dropdown-menu",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "hashmap.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack serve --config webpack.dev.js",
-    "start": "webpack serve --open",
+    "start": "webpack serve --open --config webpack.dev.js",
     "dist": "git subtree push --prefix dist origin gh-pages"
   },
   "author": "",
