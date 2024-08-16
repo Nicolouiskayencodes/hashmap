@@ -83,10 +83,29 @@ function HashMap() {
     }
     return false;
   }
+  function remove(key) {
+    let index = -1;
+    let correctBucket = [];
+    for (let i=0; i<buckets.length; i++) {
+      if(buckets[i] !== undefined){
+        if (buckets[i].contain(key)){
+          index = buckets[i].find(key);
+          correctBucket = buckets[i];
+        }
+      }
+    }
+    if (index === -1){
+      return false;
+    }
 
-  return {getBuckets, hash, set, get, has}
+    correctBucket.removeAt(index);
+    return true;
+  }
+  
+
+  return {getBuckets, hash, set, get, has, remove}
+
 }
-
 let hash = HashMap();
 hash.set("hi", "you");
 hash.set("hi", "hi");
@@ -129,3 +148,7 @@ console.log(hash.get("qwuwur"))
 console.log(hash.has("waffle"))
 
 console.log(hash.has("groan"))
+console.log(hash.get("groan"))
+hash.remove("groan");
+console.log(hash.has("groan"))
+console.log(hash.get("groan"))
