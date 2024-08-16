@@ -107,7 +107,7 @@ export function LinkedList() {
     let first = head;
     function iterate(node) {
       let count = 0;
-      if (value in node){
+      if (value in node|| node.value === value){
         return count;
       } else if (node.next === null) {
         return -9999999999999999999999;

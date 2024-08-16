@@ -1,6 +1,6 @@
 import { LinkedList } from "./linkedlist.js";
 
-export function HashMap() {
+export function HashSet() {
   let buckets = Array(16);
   function getBuckets() {
     let newArray = Array(buckets.length)
@@ -34,12 +34,12 @@ export function HashMap() {
     if(!has(key)) {
       if (getCapacity() > (buckets.length*0.75)) {
         let half = buckets.length;
-        let entries = getEntries();
+        let entries = getValues();
         clear();
         let extension = buckets.concat(Array(half));
         buckets = extension
-        entries.forEach(([k, v]) => {
-          set(k,v);
+        entries.forEach((element) => {
+          set('value',element);
         })
       }
     }
@@ -53,10 +53,10 @@ export function HashMap() {
       buckets[index] = LinkedList();
     }
     if (buckets[index].contain(key) === false){
-      buckets[index].append(key, value);
+      buckets[index].append("value", key);
     } else if (buckets[index].contain(key) === true){
       let depth = buckets[index].find(key)
-      buckets[index].replaceAt(key,value, depth)
+      buckets[index].replaceAt("value", key, depth)
     }
   }
   function get(key) {
@@ -94,7 +94,7 @@ export function HashMap() {
     let correctBucket = [];
     for (let i=0; i<buckets.length; i++) {
       if(buckets[i] !== undefined){
-        if (buckets[i].contain(key)){
+        if (buckets[i].getHead().value === key){
           index = buckets[i].find(key);
           correctBucket = buckets[i];
         }
@@ -103,7 +103,6 @@ export function HashMap() {
     if (index === -1){
       return false;
     }
-
     correctBucket.removeAt(index);
     return true;
   }
@@ -123,29 +122,7 @@ export function HashMap() {
       }
     }
   }
-  function getKeys(){
-    let array = [];
-    for (let i=0; i<buckets.length; i++) {
-      if(buckets[i] !== undefined){
-        let bucket = buckets[i].getHead()
-        function printKeys(node){
-          if (node === null){
-            return;
-          } else {
-            let keys = Object.keys(node);
-            keys.forEach((key)=>{
-              if (key !== "next"){
-                array.push(key);
-              }
-            })
-            return printKeys(node.next)
-          }
-        }
-        printKeys(bucket);
-      }
-    }
-    return array;
-  }
+  
   function getValues(){
     let array = [];
     for (let i=0; i<buckets.length; i++) {
@@ -169,32 +146,9 @@ export function HashMap() {
     }
     return array;
   }
-  function getEntries(){
-    let array = [];
-    for (let i=0; i<buckets.length; i++) {
-      if(buckets[i] !== undefined){
-        let bucket = buckets[i].getHead()
-        function printKeys(node){
-          if (node === null){
-            return;
-          } else {
-            let keys = Object.keys(node);
-            keys.forEach((key)=>{
-              if (key !== "next"){
-                let item = [key, node[key]]
-                array.push(item);
-              }
-            })
-            return printKeys(node.next)
-          }
-        }
-        printKeys(bucket);
-      }
-    }
-    return array;
-  }
+ 
   
 
-  return {getBuckets, hash, set, get, has, remove, length, clear, getKeys, getValues, getEntries}
+  return {getBuckets, hash, set, get, has, remove, length, clear, getValues}
 
 }

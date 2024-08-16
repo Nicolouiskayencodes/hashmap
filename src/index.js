@@ -1,5 +1,6 @@
 import './style.css';
 import { HashMap } from './hashmap.js';
+import { HashSet } from './hashset.js';
 
 let test = HashMap();
 test.set('apple', 'red')
@@ -28,3 +29,23 @@ console.log(test.getEntries())
 console.log(test.remove('cat'))
 console.log(test.remove('clay'))
 console.log(test.getBuckets());
+
+let set = HashSet();
+set.set('apple');
+set.set('dog');
+set.set('wood');
+set.set('fish');
+set.set('grape');
+set.set('hoard');
+set.set('hand');
+set.set('lampoon');
+set.set('snack');
+set.set('eat');
+set.set('phone');
+set.set('mouse');
+set.set('large');
+console.log(set.getBuckets());
+console.log(set.length())
+console.log(set.remove('dog'))
+console.log(set.remove('cat'))
+console.log(set.getBuckets());
