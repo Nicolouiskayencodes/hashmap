@@ -73,8 +73,18 @@ function HashMap() {
     }
     return correctBucket[key];
   }
+  function has(key){
+    for (let i=0; i<buckets.length; i++) {
+      if(buckets[i] !== undefined){
+        if (buckets[i].contain(key)){
+          return true
+        }
+      }
+    }
+    return false;
+  }
 
-  return {getBuckets, hash, set, get}
+  return {getBuckets, hash, set, get, has}
 }
 
 let hash = HashMap();
@@ -116,3 +126,6 @@ hash.set("groan", "nonono");
 console.log(hash.getBuckets());
 console.log(hash.get("groan"))
 console.log(hash.get("qwuwur"))
+console.log(hash.has("waffle"))
+
+console.log(hash.has("groan"))
