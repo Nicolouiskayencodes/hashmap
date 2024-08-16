@@ -7,12 +7,13 @@ import { LinkedList } from "./linkedlist.js";
 export function HashMap() {
   let buckets = Array(16);
   function getBuckets() {
-    buckets.forEach((element)=>{
-      if (element !== undefined){
-        console.log(element.getHead())
+    let newArray = Array(buckets.length)
+    for (let i = 0; i < buckets.length; i++) {
+      if (buckets[i] !== undefined) {
+        newArray[i] = buckets[i].getHead();
       }
-    })
-    return buckets;
+    }
+    return newArray;
   }
   function hash(key) {
     let hashCode = 0;
@@ -34,12 +35,19 @@ export function HashMap() {
     return capacity;
   }
   function set(key,value) {
-    // if (getCapacity() > (buckets.length*0.8)){
-    //   let half = buckets.length;
-    //   let extension = buckets.concat(Array(half));
+    if(!has(key)) {
+      if (getCapacity() > (buckets.length*0.75)) {
+        let half = buckets.length;
+        let entries = getEntries();
+        clear();
+        let extension = buckets.concat(Array(half));
+        buckets = extension
+        entries.forEach(([k, v]) => {
+          set(k,v);
+        })
+      }
+    }
 
-    //   buckets = extension
-    // }
     let hashCode = hash(key);
     let index = (hashCode%buckets.length);
     if (index < 0 || index >= buckets.length) {
@@ -119,8 +127,78 @@ export function HashMap() {
       }
     }
   }
+  function getKeys(){
+    let array = [];
+    for (let i=0; i<buckets.length; i++) {
+      if(buckets[i] !== undefined){
+        let bucket = buckets[i].getHead()
+        function printKeys(node){
+          if (node === null){
+            return;
+          } else {
+            let keys = Object.keys(node);
+            keys.forEach((key)=>{
+              if (key !== "next"){
+                array.push(key);
+              }
+            })
+            return printKeys(node.next)
+          }
+        }
+        printKeys(bucket);
+      }
+    }
+    return array;
+  }
+  function getValues(){
+    let array = [];
+    for (let i=0; i<buckets.length; i++) {
+      if(buckets[i] !== undefined){
+        let bucket = buckets[i].getHead()
+        function printKeys(node){
+          if (node === null){
+            return;
+          } else {
+            let keys = Object.keys(node);
+            keys.forEach((key)=>{
+              if (key !== "next"){
+                array.push(node[key]);
+              }
+            })
+            return printKeys(node.next)
+          }
+        }
+        printKeys(bucket);
+      }
+    }
+    return array;
+  }
+  function getEntries(){
+    let array = [];
+    for (let i=0; i<buckets.length; i++) {
+      if(buckets[i] !== undefined){
+        let bucket = buckets[i].getHead()
+        function printKeys(node){
+          if (node === null){
+            return;
+          } else {
+            let keys = Object.keys(node);
+            keys.forEach((key)=>{
+              if (key !== "next"){
+                let item = [key, node[key]]
+                array.push(item);
+              }
+            })
+            return printKeys(node.next)
+          }
+        }
+        printKeys(bucket);
+      }
+    }
+    return array;
+  }
   
 
-  return {getBuckets, hash, set, get, has, remove, length, clear}
+  return {getBuckets, hash, set, get, has, remove, length, clear, getKeys, getValues, getEntries}
 
 }
